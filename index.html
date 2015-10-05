@@ -1,11 +1,10 @@
 
 <html>
     <head>
-        <title>Planets</title>
+        <title>LearnTHREE.js</title>
     </head>
     <body>
         <script src="js/three.min.js"></script>
-        <script src="js/ColladaLoader.js"></script>
 		<script src="js/OBJLoader.js"></script>
         <script>
 
@@ -28,84 +27,125 @@
                 var camera = new THREE.PerspectiveCamera(view_angle, aspect, near, far);
                 camera.position.z = 500;
                 return camera;
+            }
+
+            function onModelLoad ( geometry, materials ) {
+                var faceMaterial = new THREE.MeshFaceMaterial( materials );
+                frogModel = new THREE.Mesh( geometry, faceMaterial );
+                frogModel.scale.x = frogModel.scale.y = frogModel.scale.z = 10;
+                //frogModel.rotation.x = Math.PI/2;
+
+                init();
             }    
 
-            function myPlanet(radius, color){
-                this.radius = radius;
-                this.color = color;
-
-                this.buildPlanet = function(){
+            function frog(){
+                this.buildFrog = function(){
                     this.model = frogModel.clone();
                     scene.add(this.model);
                 }
 
-                this.updateSpin = function(){
-                    //set the rotation axis to the y-axis
-                    var rotAxis = new THREE.Vector3(0, 1, 0);
+                this.updatePosition = function(){
+                    //move frog along x-axis
+                    //this.model.position.x += 1;
+
+                    //move frog along y-axis
+                    //this.model.position.y += 1;
+
+                    //move from along z-axis
+                    //this.model.position.z += 1;
+
+                    //move from along vector (1,1,-1)
+                    // this.model.position.x += 1;
+                    // this.model.position.y += 1;
+                    // this.model.position.z += -1;
+
+                    //rotate frog
+                    //set the rotation axis to the x-axis
+                    var rotAxis = new THREE.Vector3(1, 0, 0);
                     //set the speed of the rotation (neg angle will rotate the other direction)
                     var angleOfRot = 0.01;
-                    this.model.position.x += 1;
+                    this.model.rotateOnAxis(rotAxis, angleOfRot);
                 }
             }
 
-            // var geometry = new THREE.SphereGeometry(this.radius, rings, segments);
-            //         var material = new THREE.MeshLambertMaterial(
-            //         {
-            //           color: this.color,
-            //           wireframe: true
-            //         });
-            //         var sphere = new THREE.Mesh(geometry, material);
-            //         scene.add(sphere);
+            function cube(width, height, depth){
+                this.width = width;
+                this.height = height;
+                this.depth = depth;
+
+                this.buildCube = function(){
+                    var geometry = new THREE.BoxGeometry(this.width, this.height, this.depth);
+                    var material = new THREE.MeshNormalMaterial(
+                    {
+                      wireframe: true
+                    });
+                    
+                    var cube = new THREE.Mesh(geometry, material);
+                    scene.add(cube);
+                    this.model = cube;
+                }
+
+                this.updatePosition = function(){
+                    //move cube along x-axis
+                    //this.model.position.x += 1;
+
+                    //move box along y-axis
+                    //this.model.position.y += 1;
+
+                    //rotate box
+                    //set the rotation axis to the x-axis
+                    var rotAxis = new THREE.Vector3(1, 0, 0);
+                    //set the speed of the rotation (neg angle will rotate the other direction)
+                    var angleOfRot = 0.01;
+                    this.model.rotateOnAxis(rotAxis, angleOfRot);
+                    
+                }
+            }
+
+            function init() {
+                scene = buildScene();
+                renderer = setRenderer();
+                camera = setCamera();
+            
+                // //add frog
+                // frog1 = new frog();
+                // frog1.buildFrog(); 
+
+                //add cube
+                cube1 = new cube(50, 50, 50);
+                cube1.buildCube();
+
+                //add light
+                var light = new THREE.AmbientLight( 0xFFFFFF );
+                scene.add( light );
+
+
+                // create a point light
+                var pointLight = new THREE.PointLight( 0xFFFFFF );
+                // set its position
+                pointLight.position.x = 10;
+                pointLight.position.y = 50;
+                pointLight.position.z = 130;
+
+                //scene.add(pointLight);    
+
+                //draw scene
+                render();
+            }
 
             //this creates a loop that runs every 60th of a sec
             function render() {
                 renderer.render(scene, camera);
                 requestAnimationFrame(render);
-                frog.updateSpin();
+                //frog1.updatePosition();
+                cube1.updatePosition();
             }
 
-			function onModelLoad ( geometry, materials ) {
-				var faceMaterial = new THREE.MeshFaceMaterial( materials );
-				frogModel = new THREE.Mesh( geometry, faceMaterial );
-				frogModel.scale.x = frogModel.scale.y = frogModel.scale.z = 10;
-				frogModel.rotation.x = Math.PI/2;
+			var scene, renderer, camera, frog1, cube1;
+            init();
+         	//var loader = new THREE.JSONLoader();
 
-				init();
-			}
-
-            function init() {
-	            scene = buildScene();
-	            renderer = setRenderer();
-	            camera = setCamera();
-	        
-	            //add planet
-	            var redPlanetRadius = 50;
-	            var redPlanetColor = 0xCC0000;
-	            frog = new myPlanet(redPlanetRadius, redPlanetColor);
-	            frog.buildPlanet(); 
-
-	            var light = new THREE.AmbientLight( 0xFFFFFF );
-	            scene.add( light );
-
-
-	            // create a point light
-	            var pointLight = new THREE.PointLight( 0xFFFFFF );
-
-	            // set its position
-	            pointLight.position.x = 10;
-	            pointLight.position.y = 50;
-	            pointLight.position.z = 130;
-
-	            //scene.add(pointLight);    
-
-	            //draw scene
-	            render();
-            }
-
-			var scene, renderer, camera, frog;
-
-        	var loader = new THREE.JSONLoader();
-			loader.load( "res/frog/frog.json", onModelLoad );
+			// loader.load( "res/frog/frog.json", onModelLoad );
             
         </script>
     </body>
