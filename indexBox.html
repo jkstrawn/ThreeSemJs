@@ -13,7 +13,7 @@
     </head>
     <body>
         <script src="js/three.min.js"></script>
-		<script src="js/OBJLoader.js"></script>
+        <script src="js/OBJLoader.js"></script>
         <script>
 
             function buildScene(){
@@ -35,45 +35,6 @@
                 var camera = new THREE.PerspectiveCamera(view_angle, aspect, near, far);
                 camera.position.z = 500;
                 return camera;
-            }
-
-            function onModelLoad ( geometry, materials ) {
-                var faceMaterial = new THREE.MeshFaceMaterial( materials );
-                frogModel = new THREE.Mesh( geometry, faceMaterial );
-                frogModel.scale.x = frogModel.scale.y = frogModel.scale.z = 10;
-                //frogModel.rotation.x = Math.PI/2;
-
-                init();
-            }    
-
-            function frog(){
-                this.buildFrog = function(){
-                    this.model = frogModel.clone();
-                    scene.add(this.model);
-                }
-
-                this.updatePosition = function(){
-                    //move frog along x-axis
-                    //this.model.position.x += 1;
-
-                    //move frog along y-axis
-                    //this.model.position.y += 1;
-
-                    //move from along z-axis
-                    //this.model.position.z += 1;
-
-                    //move from along vector (1,1,-1)
-                    // this.model.position.x += 1;
-                    // this.model.position.y += 1;
-                    // this.model.position.z += -1;
-
-                    //rotate frog
-                    //set the rotation axis to the x-axis
-                    var rotAxis = new THREE.Vector3(1, 0, 0);
-                    //set the speed of the rotation (neg angle will rotate the other direction)
-                    var angleOfRot = 0.01;
-                    this.model.rotateOnAxis(rotAxis, angleOfRot);
-                }
             }
 
             function cube(width, height, depth){
@@ -114,19 +75,7 @@
 
                 scene = buildScene();
                 renderer = setRenderer();
-                camera = setCamera();
-            
-                // //add frog
-                // frog1 = new frog();
-                // frog1.buildFrog(); 
-
-                // add the background
-
-                var geometry = new THREE.PlaneGeometry( 1000, 1000, 1 );
-                var texture = THREE.ImageUtils.loadTexture('res/water.jpg');
-                var material = new THREE.MeshBasicMaterial({map: texture});
-                var plane = new THREE.Mesh( geometry, material );
-                scene.add( plane );
+                camera = setCamera(); 
 
                 //add cube
                 cube1 = new cube(50, 50, 50);
@@ -154,15 +103,12 @@
             function render() {
                 renderer.render(scene, camera);
                 requestAnimationFrame(render);
-                //frog1.updatePosition();
                 cube1.updatePosition();
             }
 
-			var scene, renderer, camera, frog1, cube1;
-            init();
-         	//var loader = new THREE.JSONLoader();
+            var scene, renderer, camera, frog1, cube1;
 
-			// loader.load( "res/frog/frog.json", onModelLoad );
+            init();
             
         </script>
     </body>
