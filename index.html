@@ -2,6 +2,15 @@
 <html>
     <head>
         <title>LearnTHREE.js</title>
+
+        <style type="text/css">
+            body {
+                padding: 0px;
+                margin: 0px;
+            }
+        </style>
+        <title>Planets</title>
+
     </head>
     <body>
         <script src="js/three.min.js"></script>
@@ -103,6 +112,7 @@
             }
 
             function init() {
+
                 scene = buildScene();
                 renderer = setRenderer();
                 camera = setCamera();
@@ -110,6 +120,20 @@
                 // //add frog
                 // frog1 = new frog();
                 // frog1.buildFrog(); 
+
+                // add the background
+
+                var geometry = new THREE.PlaneGeometry( 1000, 1000, 1 );
+                var texture = THREE.ImageUtils.loadTexture('res/water.jpg');
+                var material = new THREE.MeshBasicMaterial({map: texture});
+                var plane = new THREE.Mesh( geometry, material );
+                scene.add( plane );
+	        
+	            //add planet
+	            var redPlanetRadius = 50;
+	            var redPlanetColor = 0xCC0000;
+	            frog = new myPlanet(redPlanetRadius, redPlanetColor);
+	            frog.buildPlanet(); 
 
                 //add cube
                 cube1 = new cube(50, 50, 50);
