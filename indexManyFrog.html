@@ -50,6 +50,8 @@
             function frog(){
                 this.buildFrog = function(){
                     this.model = frogModel.clone();
+                    var yPosition = (Math.random() - .5) * 400;
+                    this.model.position.y = yPosition;
                     scene.add(this.model);
                 };
 
@@ -88,8 +90,9 @@
                 scene.add( backgroundMesh );
 
                 //add frog
-                frog1 = new frog();
-                frog1.buildFrog();
+                var newFrog = new frog();
+                newFrog.buildFrog();
+                frogs.push(newFrog);
 
                 //add light
                 var light = new THREE.AmbientLight( 0xFFFFFF );
@@ -111,12 +114,22 @@
 
             //this creates a loop that runs every 60th of a sec
             function render() {
+                if (Math.random() < .01) {
+                    console.log("new frog!");
+                    var newFrog = new frog();
+                    newFrog.buildFrog();
+                    frogs.push(newFrog);
+                }
                 renderer.render(scene, camera);
                 requestAnimationFrame(render);
-                frog1.updatePosition();
+
+                for (var i = 0; i < frogs.length; i++) {
+                    frogs[i].updatePosition();
+                }
             }
 
-			var scene, renderer, camera, frog1, frog1;
+			var scene, renderer, camera;
+            var frogs = [];
 
             // create the loader and load the frog model
          	var loader = new THREE.JSONLoader();
@@ -125,7 +138,9 @@
 
             $("body").on("click", function(mouseEvent) {
                 // check if clicked on frog
-                frog1.checkIfClicked(mouseEvent);
+                for (var i = 0; i < frogs.length; i++) {
+                    frogs[i].checkIfClicked(mouseEvent);
+                }
             });
             
         </script>
