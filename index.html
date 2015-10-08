@@ -7,7 +7,6 @@
             body {
                 padding: 0px;
                 margin: 0px;
-                background: url("res/water.jpg");
             }
         </style>
 
@@ -22,7 +21,7 @@
             }
 
             function setRenderer(){
-                var renderer = new THREE.WebGLRenderer({alpha: true});
+                var renderer = new THREE.WebGLRenderer();
                 renderer.setSize(window.innerWidth, window.innerHeight);
                 document.body.appendChild(renderer.domElement);
                 return renderer;
@@ -42,7 +41,7 @@
                 var faceMaterial = new THREE.MeshFaceMaterial( materials );
                 frogModel = new THREE.Mesh( geometry, faceMaterial );
                 frogModel.scale.x = frogModel.scale.y = frogModel.scale.z = 10;
-                //frogModel.rotation.x = Math.PI/2;
+                frogModel.rotation.x = Math.PI/2;
 
                 init();
             }    
@@ -54,15 +53,19 @@
                 }
 
                 this.updatePosition = function(){
-                    //move frog along x-axis
-                    //this.model.position.x += 1;
+                    // move frog along x-axis
+                    // this.model.position.x += 1;
 
-                    //rotate frog
-                    //set the rotation axis to the x-axis
-                    var rotAxis = new THREE.Vector3(1, 0, 0);
-                    //set the speed of the rotation (neg angle will rotate the other direction)
-                    var angleOfRot = 0.01;
-                    this.model.rotateOnAxis(rotAxis, angleOfRot);
+                    //move frog along y-axis
+                    //this.model.position.y += 1;
+
+                    //move frog along z-axis
+                    //this.model.position.z += 1;
+
+                    //move frog along vector (1,1,-1)
+                    // this.model.position.x += 1;
+                    // this.model.position.y += 1;
+                    // this.model.position.z += -1;
                 }
             }
 
@@ -71,17 +74,17 @@
                 scene = buildScene();
                 renderer = setRenderer();
                 camera = setCamera();
-            
+
+                // add the background using threeJS
+                var backgroundGeometry = new THREE.PlaneGeometry( 1000, 1000, 1 );
+                var waterTexture = THREE.ImageUtils.loadTexture('res/water.jpg');
+                var waterMaterial = new THREE.MeshBasicMaterial({map: waterTexture});
+                var backgroundMesh = new THREE.Mesh( backgroundGeometry, waterMaterial );
+                scene.add( backgroundMesh );
+
                 //add frog
                 frog1 = new frog();
-                frog1.buildFrog(); 
-
-                // add the background
-                var geometry = new THREE.PlaneGeometry( 1000, 1000, 1 );
-                // var texture = THREE.ImageUtils.loadTexture('res/water.jpg');
-                // var material = new THREE.MeshBasicMaterial({map: texture});
-                // var plane = new THREE.Mesh( geometry, material );
-                // scene.add( plane );
+                frog1.buildFrog();
 
                 //add light
                 var light = new THREE.AmbientLight( 0xFFFFFF );
@@ -108,10 +111,10 @@
                 frog1.updatePosition();
             }
 
-			var scene, renderer, camera, frogModel, frog1, cube1;
-            init();
-         	var loader = new THREE.JSONLoader();
+			var scene, renderer, camera, frog1, frog1;
 
+            // create the loader and load the frog model
+         	var loader = new THREE.JSONLoader();
 			loader.load( "res/frog/frog.json", onModelLoad );
             
         </script>
