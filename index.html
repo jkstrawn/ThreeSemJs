@@ -7,6 +7,7 @@
             body {
                 padding: 0px;
                 margin: 0px;
+                background: url("res/water.jpg");
             }
         </style>
 
@@ -21,7 +22,7 @@
             }
 
             function setRenderer(){
-                var renderer = new THREE.WebGLRenderer();
+                var renderer = new THREE.WebGLRenderer({alpha: true});
                 renderer.setSize(window.innerWidth, window.innerHeight);
                 document.body.appendChild(renderer.domElement);
                 return renderer;
@@ -123,10 +124,10 @@
                 // add the background
 
                 var geometry = new THREE.PlaneGeometry( 1000, 1000, 1 );
-                var texture = THREE.ImageUtils.loadTexture('res/water.jpg');
-                var material = new THREE.MeshBasicMaterial({map: texture});
-                var plane = new THREE.Mesh( geometry, material );
-                scene.add( plane );
+                // var texture = THREE.ImageUtils.loadTexture('res/water.jpg');
+                // var material = new THREE.MeshBasicMaterial({map: texture});
+                // var plane = new THREE.Mesh( geometry, material );
+                // scene.add( plane );
 
                 //add cube
                 cube1 = new cube(50, 50, 50);

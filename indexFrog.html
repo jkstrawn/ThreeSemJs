@@ -7,14 +7,13 @@
             body {
                 padding: 0px;
                 margin: 0px;
-                background: url("res/water.jpg");
             }
         </style>
 
     </head>
     <body>
         <script src="js/three.min.js"></script>
-        <script src="js/OBJLoader.js"></script>
+		<script src="js/OBJLoader.js"></script>
         <script>
 
             function buildScene(){
@@ -22,7 +21,7 @@
             }
 
             function setRenderer(){
-                var renderer = new THREE.WebGLRenderer({alpha: true});
+                var renderer = new THREE.WebGLRenderer();
                 renderer.setSize(window.innerWidth, window.innerHeight);
                 document.body.appendChild(renderer.domElement);
                 return renderer;
@@ -38,37 +37,35 @@
                 return camera;
             }
 
-            function cube(width, height, depth){
-                this.width = width;
-                this.height = height;
-                this.depth = depth;
+            function onModelLoad ( geometry, materials ) {
+                var faceMaterial = new THREE.MeshFaceMaterial( materials );
+                frogModel = new THREE.Mesh( geometry, faceMaterial );
+                frogModel.scale.x = frogModel.scale.y = frogModel.scale.z = 10;
+                frogModel.rotation.x = Math.PI/2;
 
-                this.buildCube = function(){
-                    var geometry = new THREE.BoxGeometry(this.width, this.height, this.depth);
-                    var material = new THREE.MeshNormalMaterial(
-                    {
-                      wireframe: true
-                    });
-                    
-                    var cube = new THREE.Mesh(geometry, material);
-                    scene.add(cube);
-                    this.model = cube;
+                init();
+            }    
+
+            function frog(){
+                this.buildFrog = function(){
+                    this.model = frogModel.clone();
+                    scene.add(this.model);
                 }
 
                 this.updatePosition = function(){
-                    //move cube along x-axis
-                    //this.model.position.x += 1;
+                    // move frog along x-axis
+                    this.model.position.x += 1;
 
-                    //move box along y-axis
+                    //move frog along y-axis
                     //this.model.position.y += 1;
 
-                    //rotate box
-                    //set the rotation axis to the x-axis
-                    var rotAxis = new THREE.Vector3(1, 0, 0);
-                    //set the speed of the rotation (neg angle will rotate the other direction)
-                    var angleOfRot = 0.01;
-                    this.model.rotateOnAxis(rotAxis, angleOfRot);
-                    
+                    //move frog along z-axis
+                    //this.model.position.z += 1;
+
+                    //move frog along vector (1,1,-1)
+                    // this.model.position.x += 1;
+                    // this.model.position.y += 1;
+                    // this.model.position.z += -1;
                 }
             }
 
@@ -76,11 +73,18 @@
 
                 scene = buildScene();
                 renderer = setRenderer();
-                camera = setCamera(); 
+                camera = setCamera();
 
-                //add cube
-                cube1 = new cube(50, 50, 50);
-                cube1.buildCube();
+                // add the background using threeJS
+                var backgroundGeometry = new THREE.PlaneGeometry( 1000, 1000, 1 );
+                var waterTexture = THREE.ImageUtils.loadTexture('res/water.jpg');
+                var waterMaterial = new THREE.MeshBasicMaterial({map: waterTexture});
+                var backgroundMesh = new THREE.Mesh( backgroundGeometry, waterMaterial );
+                scene.add( backgroundMesh );
+
+                //add frog
+                frog1 = new frog();
+                frog1.buildFrog();
 
                 //add light
                 var light = new THREE.AmbientLight( 0xFFFFFF );
@@ -104,12 +108,14 @@
             function render() {
                 renderer.render(scene, camera);
                 requestAnimationFrame(render);
-                cube1.updatePosition();
+                frog1.updatePosition();
             }
 
-            var scene, renderer, camera, frog1, cube1;
+			var scene, renderer, camera, frog1, frog1;
 
-            init();
+            // create the loader and load the frog model
+         	var loader = new THREE.JSONLoader();
+			loader.load( "res/frog/frog.json", onModelLoad );
             
         </script>
     </body>
