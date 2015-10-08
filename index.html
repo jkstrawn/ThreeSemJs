@@ -41,7 +41,6 @@
                 var faceMaterial = new THREE.MeshFaceMaterial( materials );
                 frogModel = new THREE.Mesh( geometry, faceMaterial );
                 frogModel.scale.x = frogModel.scale.y = frogModel.scale.z = 10;
-                //frogModel.rotation.x = Math.PI/2;
 
                 init();
             }    
@@ -53,15 +52,7 @@
                 }
 
                 this.updatePosition = function(){
-                    //move frog along x-axis
-                    //this.model.position.x += 1;
-
-                    //rotate frog
-                    //set the rotation axis to the x-axis
-                    var rotAxis = new THREE.Vector3(1, 0, 0);
-                    //set the speed of the rotation (neg angle will rotate the other direction)
-                    var angleOfRot = 0.01;
-                    this.model.rotateOnAxis(rotAxis, angleOfRot);
+                    //nothing here yet!
                 }
             }
 
@@ -84,17 +75,7 @@
 
                 //add light
                 var light = new THREE.AmbientLight( 0xFFFFFF );
-                scene.add( light );
-
-
-                // create a point light
-                var pointLight = new THREE.PointLight( 0xFFFFFF );
-                // set its position
-                pointLight.position.x = 10;
-                pointLight.position.y = 50;
-                pointLight.position.z = 130;
-
-                //scene.add(pointLight);    
+                scene.add( light );   
 
                 //draw scene
                 render();
