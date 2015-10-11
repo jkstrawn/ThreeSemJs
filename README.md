@@ -4,26 +4,26 @@ THREE.js Explore the Possiblities
 
 #####BEFORE YOU START
 * Clone the repo (git clone https://github.com/jkstrawn/ThreeSemJs.git)
-* Open IndexStart.html in your text editor. This is where we left off in the demo.
+* Open IndexStart.html in your text editor.
 
 #####EXERCISES
 
-######Using IndexStart.html
+######Using IndexStart.html (The Cube)
 1. Move the cube
   * Move the cube along the y-axis
   * Move the cube along the z-axis
   * Rotate the cube about the y-axis
   * Rotate the cube the other direction
-  * Rotate and move the block along an axis
+  * Rotate and move the cube along an axis
   * Change the cube to another Geometry (your choice!)
-  * Advanced: Start cube off the screen and have it move onto the screen (hint: use a negative x value and y value a random   number between -200 and 200)
+  * Advanced: Start cube in a random position off the screen and have it move onto the screen (hint: use a negative x value and y value a random   number between -200 and 200)
 
 
 2. Add a second cube
  * Add a second cube (careful, make sure to move it's intial location so they aren't on top of one another!)
  * Add an array of cubes and iterate over your arrary to update the position of each cube
 
-######Using Index.html
+######Using Index.html (The Frog)
 1. Change the cube to a frog
   * In order to use the js loader, you must host your page.
   
