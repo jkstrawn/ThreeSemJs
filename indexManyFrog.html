@@ -52,12 +52,13 @@
                     this.model = frogModel.clone();
                     var yPosition = (Math.random() - .5) * 400;
                     this.model.position.y = yPosition;
+                    this.model.position.x = -window.innerWidth / 4;
                     scene.add(this.model);
                 };
 
                 this.updatePosition = function(){
                     // move frog along x-axis
-                    this.model.position.x += 1;
+                    this.model.position.x += 2;
 
                     //move frog along y-axis
                     //this.model.position.y += 1;
@@ -71,8 +72,21 @@
                     // this.model.position.z += -1;
                 };
 
-                this.checkIfClicked = function(mouseEvent) {
+                this.wasClicked = function(mouseEvent) {
 
+                    var x = mouseEvent.clientX / window.innerWidth * 2 - 1;
+                    var y = - mouseEvent.clientY / window.innerHeight * 2 + 1;
+
+                    var vector = new THREE.Vector3(x, y, 0.5);
+                    projector.unprojectVector( vector, camera );
+                    raycaster.set( camera.position, vector.sub( camera.position ).normalize() );
+                    var intersects = raycaster.intersectObjects( [this.model], true );
+
+                    if ( intersects.length > 0 ) {
+                        console.log("hit the frog!!");
+                        return true;
+                    }
+                    return false;
                 };
             }
 
@@ -107,6 +121,8 @@
                 pointLight.position.z = 130;
 
                 //scene.add(pointLight);    
+                projector = new THREE.Projector();
+                raycaster = new THREE.Raycaster();
 
                 //draw scene
                 render();
@@ -128,7 +144,7 @@
                 }
             }
 
-			var scene, renderer, camera;
+			var scene, renderer, camera, projector, raycaster;
             var frogs = [];
 
             // create the loader and load the frog model
@@ -138,8 +154,11 @@
 
             $("body").on("click", function(mouseEvent) {
                 // check if clicked on frog
-                for (var i = 0; i < frogs.length; i++) {
-                    frogs[i].checkIfClicked(mouseEvent);
+                for (var i = frogs.length - 1; i >= 0; i--) {
+                    if (frogs[i].wasClicked(mouseEvent)) {
+                        scene.remove(frogs[i].model);
+                        frogs.splice(i, 1);
+                    }
                 }
             });
             
