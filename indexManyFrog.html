@@ -1,0 +1,167 @@
+
+<html>
+    <head>
+        <title>LearnTHREE.js</title>
+
+        <style type="text/css">
+            body {
+                padding: 0px;
+                margin: 0px;
+            }
+        </style>
+
+    </head>
+    <body>
+        <script src="js/three.min.js"></script>
+        <script src="js/OBJLoader.js"></script>
+		<script src="js/jquery.js"></script>
+        <script>
+
+            function buildScene(){
+                return new THREE.Scene();
+            }
+
+            function setRenderer(){
+                var renderer = new THREE.WebGLRenderer();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                document.body.appendChild(renderer.domElement);
+                return renderer;
+            }
+
+            function setCamera () {
+                var view_angle = 45;
+                var aspect = window.innerWidth / window.innerHeight;
+                var near = 0.1;
+                var far = 10000;
+                var camera = new THREE.PerspectiveCamera(view_angle, aspect, near, far);
+                camera.position.z = 500;
+                return camera;
+            }
+
+            function onModelLoad ( geometry, materials ) {
+                var faceMaterial = new THREE.MeshFaceMaterial( materials );
+                frogModel = new THREE.Mesh( geometry, faceMaterial );
+                frogModel.scale.x = frogModel.scale.y = frogModel.scale.z = 10;
+                frogModel.rotation.x = Math.PI/2;
+
+                init();
+            }    
+
+            function frog(){
+                this.buildFrog = function(){
+                    this.model = frogModel.clone();
+                    var yPosition = (Math.random() - .5) * 400;
+                    this.model.position.y = yPosition;
+                    this.model.position.x = -window.innerWidth / 4;
+                    scene.add(this.model);
+                };
+
+                this.updatePosition = function(){
+                    // move frog along x-axis
+                    this.model.position.x += 2;
+
+                    //move frog along y-axis
+                    //this.model.position.y += 1;
+
+                    //move frog along z-axis
+                    //this.model.position.z += 1;
+
+                    //move frog along vector (1,1,-1)
+                    // this.model.position.x += 1;
+                    // this.model.position.y += 1;
+                    // this.model.position.z += -1;
+                };
+
+                this.wasClicked = function(mouseEvent) {
+
+                    var x = mouseEvent.clientX / window.innerWidth * 2 - 1;
+                    var y = - mouseEvent.clientY / window.innerHeight * 2 + 1;
+
+                    var vector = new THREE.Vector3(x, y, 0.5);
+                    projector.unprojectVector( vector, camera );
+                    raycaster.set( camera.position, vector.sub( camera.position ).normalize() );
+                    var intersects = raycaster.intersectObjects( [this.model], true );
+
+                    if ( intersects.length > 0 ) {
+                        console.log("hit the frog!!");
+                        return true;
+                    }
+                    return false;
+                };
+            }
+
+            function init() {
+
+                scene = buildScene();
+                renderer = setRenderer();
+                camera = setCamera();
+
+                // add the background using threeJS
+                var backgroundGeometry = new THREE.PlaneGeometry( 1000, 1000, 1 );
+                var waterTexture = THREE.ImageUtils.loadTexture('res/water.jpg');
+                var waterMaterial = new THREE.MeshBasicMaterial({map: waterTexture});
+                var backgroundMesh = new THREE.Mesh( backgroundGeometry, waterMaterial );
+                scene.add( backgroundMesh );
+
+                //add frog
+                var newFrog = new frog();
+                newFrog.buildFrog();
+                frogs.push(newFrog);
+
+                //add light
+                var light = new THREE.AmbientLight( 0xFFFFFF );
+                scene.add( light );
+
+
+                // create a point light
+                var pointLight = new THREE.PointLight( 0xFFFFFF );
+                // set its position
+                pointLight.position.x = 10;
+                pointLight.position.y = 50;
+                pointLight.position.z = 130;
+
+                //scene.add(pointLight);    
+                projector = new THREE.Projector();
+                raycaster = new THREE.Raycaster();
+
+                //draw scene
+                render();
+            }
+
+            //this creates a loop that runs every 60th of a sec
+            function render() {
+                if (Math.random() < .01) {
+                    console.log("new frog!");
+                    var newFrog = new frog();
+                    newFrog.buildFrog();
+                    frogs.push(newFrog);
+                }
+                renderer.render(scene, camera);
+                requestAnimationFrame(render);
+
+                for (var i = 0; i < frogs.length; i++) {
+                    frogs[i].updatePosition();
+                }
+            }
+
+			var scene, renderer, camera, projector, raycaster;
+            var frogs = [];
+
+            // create the loader and load the frog model
+         	var loader = new THREE.JSONLoader();
+			loader.load( "res/frog/frog.json", onModelLoad );
+
+
+            $("body").on("click", function(mouseEvent) {
+                // check if clicked on frog
+                for (var i = frogs.length - 1; i >= 0; i--) {
+                    if (frogs[i].wasClicked(mouseEvent)) {
+                        scene.remove(frogs[i].model);
+                        frogs.splice(i, 1);
+                    }
+                }
+            });
+            
+        </script>
+    </body>
+</html>
