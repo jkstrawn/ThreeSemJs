@@ -41,6 +41,7 @@
                 var faceMaterial = new THREE.MeshFaceMaterial( materials );
                 frogModel = new THREE.Mesh( geometry, faceMaterial );
                 frogModel.scale.x = frogModel.scale.y = frogModel.scale.z = 10;
+                frogModel.rotation.x = Math.PI/2;
 
                 init();
             }    
@@ -70,8 +71,9 @@
                 scene.add( backgroundMesh );
 
                 //add frog
-                frog1 = new frog();
-                frog1.buildFrog();
+                var newFrog = new frog();
+                newFrog.buildFrog();
+                frogs.push(newFrog);
 
                 //add light
                 var light = new THREE.AmbientLight( 0xFFFFFF );
@@ -85,10 +87,13 @@
             function render() {
                 renderer.render(scene, camera);
                 requestAnimationFrame(render);
-                frog1.updatePosition();
+                for (var i = 0; i < frogs.length; i++) {
+                    frogs[i].updatePosition();
+                }
             }
 
-			var scene, renderer, camera, frog1, frog1;
+			var scene, renderer, camera;
+            var frogs = [];
 
             // create the loader and load the frog model
          	var loader = new THREE.JSONLoader();

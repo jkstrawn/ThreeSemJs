@@ -45,31 +45,22 @@
 
                 this.buildCube = function(){
                     var geometry = new THREE.BoxGeometry(this.width, this.height, this.depth);
-                    // var material = new THREE.MeshNormalMaterial(
-                    // {
-                    //   wireframe: true
-                    // });
+
                     var material = new THREE.MeshLambertMaterial(
                     {
                       wireframe: true
                     });
                     
-                    var cube = new THREE.Mesh(geometry, material);
-                    scene.add(cube);
-                    this.model = cube;
+                    this.model = new THREE.Mesh(geometry, material);
+                    scene.add(this.model);
                 }
 
                 this.updatePosition = function(){
                     //move cube along x-axis
                     this.model.position.x += 1;
 
-                    // //rotate box
-                    // //set the rotation axis to the x-axis
-                    // var rotAxis = new THREE.Vector3(1, 0, 0);
-                    // //set the speed of the rotation (neg angle will rotate the other direction)
-                    // var angleOfRot = 0.01;
-                    // this.model.rotateOnAxis(rotAxis, angleOfRot);
-                    
+                    // //rotate box around x axis
+                    this.model.rotation.x += .1;
                 }
             }
 
@@ -97,7 +88,7 @@
                 cube1.updatePosition();
             }
 
-            var scene, renderer, camera, frog1, cube1;
+            var scene, renderer, camera, cube1;
 
             init();
             

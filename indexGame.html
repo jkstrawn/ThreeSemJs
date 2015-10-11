@@ -50,26 +50,15 @@
             function frog(){
                 this.buildFrog = function(){
                     this.model = frogModel.clone();
-                    var yPosition = (Math.random() - .5) * 400;
-                    this.model.position.y = yPosition;
-                    this.model.position.x = -window.innerWidth / 4;
+                    // get a number between -200 and 200
+                    this.model.position.y = (Math.random() * 400) - 200;
+                    this.model.position.x = -window.innerWidth / 2;
                     scene.add(this.model);
                 };
 
                 this.updatePosition = function(){
                     // move frog along x-axis
-                    this.model.position.x += 2;
-
-                    //move frog along y-axis
-                    //this.model.position.y += 1;
-
-                    //move frog along z-axis
-                    //this.model.position.z += 1;
-
-                    //move frog along vector (1,1,-1)
-                    // this.model.position.x += 1;
-                    // this.model.position.y += 1;
-                    // this.model.position.z += -1;
+                    this.model.position.x += speed;
                 };
 
                 this.wasClicked = function(mouseEvent) {
@@ -86,6 +75,7 @@
                         console.log("hit the frog!!");
                         return true;
                     }
+
                     return false;
                 };
             }
@@ -145,6 +135,7 @@
             }
 
 			var scene, renderer, camera, projector, raycaster;
+            var speed = 2;
             var frogs = [];
 
             // create the loader and load the frog model
@@ -158,6 +149,8 @@
                     if (frogs[i].wasClicked(mouseEvent)) {
                         scene.remove(frogs[i].model);
                         frogs.splice(i, 1);
+
+                        speed += .2;
                     }
                 }
             });
