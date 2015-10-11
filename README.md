@@ -8,7 +8,7 @@ THREE.js Explore the Possiblities
 
 #####EXERCISES
 
-######IndexStart.html
+######Using IndexStart.html
 1. Move the cube
   * Move the cube along the y-axis
   * Move the cube along the z-axis
@@ -23,7 +23,7 @@ THREE.js Explore the Possiblities
  * Add a second cube (careful, make sure to move it's intial location so they aren't on top of one another!)
  * Add an array of cubes and iterate over your arrary to update the position of each cube
 
-######Index.html
+######Using Index.html
 1. Change the cube to a frog
   * In order to use the js loader, you must host your page.
   
