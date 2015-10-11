@@ -7,6 +7,8 @@ THREE.js Explore the Possiblities
 * Open IndexStart.html in your text editor. This is where we left off in the demo.
 
 #####EXERCISES
+
+######IndexStart.html
 1. Move the cube
   * Move the cube along the y-axis
   * Move the cube along the z-axis
@@ -21,7 +23,8 @@ THREE.js Explore the Possiblities
  * Add a second cube (careful, make sure to move it's intial location so they aren't on top of one another!)
  * Add an array of cubes and iterate over your arrary to update the position of each cube
 
-3. Change the cube to a frog
+######Index.html
+1. Change the cube to a frog
   * In order to use the js loader, you must host your page.
   
       ###### On windows: Run the mongoose.exe from the folder you cloned. Open your browser to localhost:8080
@@ -35,7 +38,7 @@ THREE.js Explore the Possiblities
    * Make frogs randomly generate (add a random function to the renderer)
    * Randomize their starting points off the screen (hint: use a negative x value and y value a random   number between -200 and 200)
 
-4. Shoot the frog
+2. Shoot the frog
   * Add jquery to the scripts
   * Add a click handler to check for clicking
     - Remove frog from array if clicked
