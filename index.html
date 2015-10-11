@@ -1,7 +1,7 @@
 
 <html>
     <head>
-        <title>LearnTHREE.js</title>
+        <title>Index</title>
 
         <style type="text/css">
             body {
@@ -13,7 +13,6 @@
     </head>
     <body>
         <script src="js/three.min.js"></script>
-		<script src="js/OBJLoader.js"></script>
         <script>
 
             function buildScene(){
@@ -37,8 +36,8 @@
                 return camera;
             }
 
-            function onModelLoad ( geometry, materials ) {
-                var faceMaterial = new THREE.MeshFaceMaterial( materials );
+            function onModelLoad ( geometry, texture ) {
+                var faceMaterial = new THREE.MeshFaceMaterial( texture );
                 frogModel = new THREE.Mesh( geometry, faceMaterial );
                 frogModel.scale.x = frogModel.scale.y = frogModel.scale.z = 10;
                 frogModel.rotation.x = Math.PI/2;
@@ -71,9 +70,9 @@
                 scene.add( backgroundMesh );
 
                 //add frog
-                var newFrog = new frog();
-                newFrog.buildFrog();
-                frogs.push(newFrog);
+                // var newFrog = new frog();
+                // newFrog.buildFrog();
+                // frogs.push(newFrog);
 
                 //add light
                 var light = new THREE.AmbientLight( 0xFFFFFF );

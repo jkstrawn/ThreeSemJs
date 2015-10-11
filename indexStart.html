@@ -1,20 +1,10 @@
 
 <html>
     <head>
-        <title>LearnTHREE.js</title>
-
-        <style type="text/css">
-            body {
-                padding: 0px;
-                margin: 0px;
-                background: url("res/water.jpg");
-            }
-        </style>
-
+        <title>IndexStart</title>
     </head>
     <body>
         <script src="js/three.min.js"></script>
-        <script src="js/OBJLoader.js"></script>
         <script>
 
             function buildScene(){
@@ -22,7 +12,7 @@
             }
 
             function setRenderer(){
-                var renderer = new THREE.WebGLRenderer({alpha: true});
+                var renderer = new THREE.WebGLRenderer();
                 renderer.setSize(window.innerWidth, window.innerHeight);
                 document.body.appendChild(renderer.domElement);
                 return renderer;
@@ -38,10 +28,10 @@
                 return camera;
             }
 
-            function cube(width, height, depth){
-                this.width = width;
-                this.height = height;
-                this.depth = depth;
+            function cube(size){
+                this.width = size;
+                this.height = size;
+                this.depth = size;
 
                 this.buildCube = function(){
                     var geometry = new THREE.BoxGeometry(this.width, this.height, this.depth);
@@ -57,10 +47,10 @@
 
                 this.updatePosition = function(){
                     //move cube along x-axis
-                    this.model.position.x += 1;
+                    //this.model.position.x += 1;
 
-                    // //rotate box around x axis
-                    this.model.rotation.x += .1;
+                    //rotate box around x axis
+                    //this.model.rotation.y += .1;
                 }
             }
 
@@ -70,12 +60,12 @@
                 camera = setCamera(); 
 
                 //add cube
-                cube1 = new cube(50, 50, 50);
+                cube1 = new cube(50);
                 cube1.buildCube();
 
                 //add light
-                var light = new THREE.AmbientLight( 0xFFFFFF );
-                scene.add( light );  
+                //var light = new THREE.AmbientLight( 0xFFFFFF );
+                //scene.add( light );  
 
                 //draw scene
                 render();
@@ -85,7 +75,7 @@
             function render() {
                 renderer.render(scene, camera);
                 requestAnimationFrame(render);
-                cube1.updatePosition();
+                //cube1.updatePosition();
             }
 
             var scene, renderer, camera, cube1;
