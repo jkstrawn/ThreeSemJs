@@ -48,7 +48,7 @@ THREE.js Explore the Possiblities
 To see our final solution, open IndexGame.html (note: if you want to run this file, you must rename it to index.html for the hosting)
 
 #####The Docs
-http://threejs.org/docs/
-https://aerotwist.com/tutorials/getting-started-with-three-js/
-https://stemkoski.github.io/Three.js/
-https://www.blender.org/support/tutorials/
+* http://threejs.org/docs/
+* https://aerotwist.com/tutorials/getting-started-with-three-js/
+* https://stemkoski.github.io/Three.js/
+* https://www.blender.org/support/tutorials/
